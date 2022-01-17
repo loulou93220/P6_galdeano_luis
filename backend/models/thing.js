@@ -18,7 +18,6 @@ const thingSchema = mongoose.Schema({
     usersLiked: { type: [String], required: false, defaultValue:[]},
     usersDisliked: { type: [String], required: false, defaultValue:[]},
     userId: { type: String, required: true },
-     // FIN DE MODIF
 });
 
 module.exports = mongoose.model("Thing", thingSchema);
