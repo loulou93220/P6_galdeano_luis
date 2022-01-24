@@ -5,6 +5,8 @@ const path = require("path");
 
 const stuffRoutes = require("./routes/stuff");
 const userRoutes = require("./routes/user");
+const useXssClean = require("xss-clean");
+const useSanitize = require("express-mongo-sanitize");
 
 mongoose
   .connect(
@@ -30,7 +32,8 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json());
-/*app.use(bodyParser.json());*/
+app.use(useSanitize());
+app.use(useXssClean());
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 
@@ -39,3 +42,4 @@ app.use("/api/auth", userRoutes);
 app.use("/api/sauces", stuffRoutes);
 
 module.exports = app;
+

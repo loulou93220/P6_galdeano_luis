@@ -50,20 +50,21 @@ exports.getOneThing = (req, res, next) => {
 };
 
 exports.modifyThing = (req, res, next) => {
-  const thing = new Thing({
+  const sauce = new Thing({
     _id: req.params.id,
     name: req.body.name,
     manufacturer: req.body.manufacturer,
     description: req.body.description,
     mainPepper: req.body.mainPepper,
-    imageUrl: req.body.imageUrl,
+    imageUrl: `${req.protocol}://${req.get("host")}/images/${
+      req.file.filename}`,
     heat: req.body.heat,
     likes: req.body.likes,
     dislikes: req.body.dislikes,
     usersLiked: req.body.usersLiked,
     usersDisliked: req.body.usersDisliked,
   });
-  Thing.updateOne({ _id: req.params.id }, thing)
+  Thing.updateOne({ _id: req.params.id},sauce)
     .then(() => {
       res.status(201).json({
         message: "Thing updated successfully!",
@@ -102,7 +103,6 @@ exports.getAllStuff = (req, res, next) => {
     });
 };
 
-/*------------------------------------------------------------------------------*/
 exports.likeDislikeThing = (req, res, next) => {
   let like = req.body.like;
   let userId = req.body.userId;
