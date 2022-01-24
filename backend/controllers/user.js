@@ -1,8 +1,12 @@
+//Création des Utilisateurs
+//Utilisation de bcrypt pour le haschage du mot de passe
+//Utilisation de jsonwebtoken echange de token sécurisé
+
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-
+//Création de l'utilisateur avec hachage de password 10 fois
 exports.signup = (req, res, next) => {
   bcrypt.hash(req.body.password, 10)
     .then(hash => {
@@ -17,6 +21,7 @@ exports.signup = (req, res, next) => {
     .catch(error => res.status(500).json({ error }));
 };
 
+//Vérification de l'utilisateur avec Email
 exports.login = (req, res, next) => {
   User.findOne({ email: req.body.email })
     .then(user => {

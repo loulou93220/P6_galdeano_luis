@@ -1,3 +1,4 @@
+//Appel des despendances et framework
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
@@ -8,6 +9,7 @@ const userRoutes = require("./routes/user");
 const useXssClean = require("xss-clean");
 const useSanitize = require("express-mongo-sanitize");
 
+// Connection à la base de donnée MongoDB
 mongoose
   .connect(
     "mongodb+srv://clolou:Lun713705@cluster0.lunmx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -18,6 +20,7 @@ mongoose
 
 const app = express();
 
+//Mise en conformité du CORS de sécurité
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
@@ -32,14 +35,16 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json());
+
+//Sécurité de la base de donnée
 app.use(useSanitize());
 app.use(useXssClean());
-app.use('/images', express.static(path.join(__dirname, 'images')));
 
+app.use("/images", express.static(path.join(__dirname, "images")));
 
+//Appel des routes
 app.use("/api/stuff", stuffRoutes);
 app.use("/api/auth", userRoutes);
 app.use("/api/sauces", stuffRoutes);
 
 module.exports = app;
-

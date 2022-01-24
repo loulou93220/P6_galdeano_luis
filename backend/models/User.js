@@ -1,3 +1,5 @@
+//Vérification d'un unique utilisateur avec mongoose unique validator
+
 const mongoose = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
 

@@ -1,5 +1,8 @@
+//Création du CRUD (Create,Read,Update,Delete)
+
 const Thing = require("../models/thing");
 
+//Creation d'une sauce avec save
 exports.createThing = (req, res, next) => {
   const { name, manufacturer, description, mainPepper, heat, userId } =
     JSON.parse(req.body.sauce);
@@ -35,6 +38,7 @@ exports.createThing = (req, res, next) => {
     .catch((error) => res.status(500).json({ error }));
 };
 
+//Séléction d'une sauce avec findOne
 exports.getOneThing = (req, res, next) => {
   Thing.findOne({
     _id: req.params.id,
@@ -49,6 +53,7 @@ exports.getOneThing = (req, res, next) => {
     });
 };
 
+//Modification d'une sauce updateOne
 exports.modifyThing = (req, res, next) => {
   const sauce = new Thing({
     _id: req.params.id,
@@ -57,14 +62,15 @@ exports.modifyThing = (req, res, next) => {
     description: req.body.description,
     mainPepper: req.body.mainPepper,
     imageUrl: `${req.protocol}://${req.get("host")}/images/${
-      req.file.filename}`,
+      req.file.filename
+    }`,
     heat: req.body.heat,
     likes: req.body.likes,
     dislikes: req.body.dislikes,
     usersLiked: req.body.usersLiked,
     usersDisliked: req.body.usersDisliked,
   });
-  Thing.updateOne({ _id: req.params.id},sauce)
+  Thing.updateOne({ _id: req.params.id }, sauce)
     .then(() => {
       res.status(201).json({
         message: "Thing updated successfully!",
@@ -77,6 +83,7 @@ exports.modifyThing = (req, res, next) => {
     });
 };
 
+//Suppréssion d'une sauce avec deleteOne
 exports.deleteThing = (req, res, next) => {
   Thing.deleteOne({ _id: req.params.id })
     .then(() => {
@@ -91,6 +98,7 @@ exports.deleteThing = (req, res, next) => {
     });
 };
 
+//Récupération de toute les sauces avec fine
 exports.getAllStuff = (req, res, next) => {
   Thing.find()
     .then((things) => {
@@ -103,6 +111,7 @@ exports.getAllStuff = (req, res, next) => {
     });
 };
 
+//Modification des like et dislike avec  updateOne
 exports.likeDislikeThing = (req, res, next) => {
   let like = req.body.like;
   let userId = req.body.userId;
